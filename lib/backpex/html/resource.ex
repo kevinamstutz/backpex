@@ -333,7 +333,7 @@ defmodule Backpex.HTML.Resource do
           <%= Backpex.translate("Toggle columns") %>
         </span>
         <Backpex.HTML.CoreComponents.icon
-          name="hero-view-columns-solid"
+          name="hero-adjustments-horizontal"
           aria-hidden="true"
           class="h-5 w-5 text-base-content/50 hover:text-base-content"
         />
