@@ -500,13 +500,14 @@ defmodule Backpex.Fields.Upload do
 
     max_entries = field_options.max_entries
     max_file_size = Map.get(field_options, :max_file_size, 8_000_000)
+    external = Map.get(field_options, :external, nil)
 
     if get_in(socket.assigns, [:uploads, field_options.upload_key]) do
       socket
     else
       socket
       |> assign_uploaded_files(field_files)
-      |> allow_field_uploads(field_options, max_entries, max_file_size)
+      |> allow_field_uploads(field_options, max_entries, max_file_size, external)
     end
   end
 
@@ -515,13 +516,22 @@ defmodule Backpex.Fields.Upload do
     assign(socket, :uploaded_files, [field_files | uploaded_files])
   end
 
-  defp allow_field_uploads(socket, _field_options, 0, _max_file_size), do: socket
+  defp allow_field_uploads(socket, _field_options, 0, _max_file_size, _external), do: socket
 
-  defp allow_field_uploads(socket, field_options, max_entries, max_file_size) do
+  defp allow_field_uploads(socket, field_options, max_entries, max_file_size, nil) do
     Phoenix.LiveView.allow_upload(socket, field_options.upload_key,
       accept: field_options.accept,
       max_entries: max_entries,
       max_file_size: max_file_size
+    )
+  end
+
+  defp allow_field_uploads(socket, field_options, max_entries, max_file_size, external) do
+    Phoenix.LiveView.allow_upload(socket, field_options.upload_key,
+      accept: field_options.accept,
+      max_entries: max_entries,
+      max_file_size: max_file_size,
+      external: external
     )
   end
 
