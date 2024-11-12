@@ -384,6 +384,7 @@ defmodule Backpex.Fields.HasMany do
     |> maybe_search_query(schema_name, field_options, display_field, Keyword.get(opts, :search))
     |> maybe_offset_query(Keyword.get(opts, :offset))
     |> maybe_limit_query(Keyword.get(opts, :limit))
+    |> IO.inspect()
     |> repo.all()
     |> Enum.map(fn item ->
       {Map.get(item, display_field_form(field)), item.id}
