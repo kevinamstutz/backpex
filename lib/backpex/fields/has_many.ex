@@ -410,6 +410,10 @@ defmodule Backpex.Fields.HasMany do
       select = Map.get(field_options, :select, nil)
 
       if select do
+        IO.puts("MAYBE SEARCH MAYBE SEARCH MAYBE SEARCH")
+        IO.inspect(query)
+        IO.inspect(select)
+        IO.puts("MAYBE SEARCH MAYBE SEARCH MAYBE SEARCH")
         where(query, ^dynamic(ilike(^select, ^search_input)))
       else
         where(query, [{^schema_name, schema_name}], ilike(field(schema_name, ^display_field), ^search_input))
